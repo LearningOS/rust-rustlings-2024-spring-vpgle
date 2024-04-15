@@ -20,7 +20,6 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
 
 pub enum Command {
     Uppercase,
@@ -39,19 +38,19 @@ pub mod my_module {
         for (string, command) in input.iter() {
             // TODO: Complete the function body. You can do it!
             match command {
-                Command::Uppercase => string.to_uppercase(),
-                Command::Trim => string.trim().to_string(),
+                Command::Uppercase => output.push(string.to_uppercase()),
+                Command::Trim => output.push(string.trim().to_string()),
                 Command::Append(count) => {
                     if *count == 1 {
                         let mut a = string.to_string(); 
                         a.push_str("bar"); 
-                        return output.insert(a.to_string())
+                        output.push(a)
                     } else {
                         let mut b = String::new();
                         for i in 0..*count+1 {
                             b.push_str("bar");
                         }
-                        return output.insert(b.to_string())
+                        output.push(b)
                     };
                     
                 },
