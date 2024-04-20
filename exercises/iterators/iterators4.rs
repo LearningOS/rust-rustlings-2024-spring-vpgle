@@ -15,6 +15,20 @@ pub fn factorial(num: u64) -> u64 {
     // For an extra challenge, don't use:
     // - recursion
     // Execute `rustlings hint iterators4` for hints.
+    if num == 0 || num == 1 {
+        1u64
+    } else if num == 2 {
+        2u64
+    } else {
+        let mut a: Vec<i32> = vec![];
+        // let a: Vec<_> = 1..num.iter().map(|num| ).collect();
+        for n in 1..=num {
+            a.push(n.try_into().unwrap());
+        }
+        let m = a.iter().fold(1, |acc, x| acc * x);
+        m.try_into().unwrap()
+    }
+
 }
 
 #[cfg(test)]
