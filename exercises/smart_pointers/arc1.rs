@@ -29,11 +29,12 @@ use std::thread;
 
 fn main() {
     let numbers: Vec<_> = (0..100u32).collect();
-    let shared_numbers = // TODO
+    let shared_numbers: Vec<_> = numbers.into_iter().filter(|n| *n % 8 == 0  ).take(13).collect();
     let mut joinhandles = Vec::new();
 
     for offset in 0..8 {
-        let child_numbers = // TODO
+        let a = shared_numbers.iter().map(|m| m + offset).collect();
+        let child_numbers = Arc::clone(&a);
         joinhandles.push(thread::spawn(move || {
             let sum: u32 = child_numbers.iter().filter(|&&n| n % 8 == offset).sum();
             println!("Sum of offset {} is {}", offset, sum);
