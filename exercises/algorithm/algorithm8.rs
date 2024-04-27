@@ -2,7 +2,7 @@
 	queue
 	This question requires you to use queues to implement the functionality of the stac
 */
-// I AM NOT DONE
+
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -61,21 +61,45 @@ pub struct myStack<T>
 impl<T> myStack<T> {
     pub fn new() -> Self {
         Self {
-			//TODO
-			q1:Queue::<T>::new(),
-			q2:Queue::<T>::new()
+            q1: Queue::new(),
+            q2: Queue::new()
         }
     }
+
     pub fn push(&mut self, elem: T) {
-        //TODO
+        // To implement push, we want to enqueue the element into the non-empty queue
+        // If both queues are empty, we'll enqueue into q1 by default
+        if !self.q1.is_empty() {
+            self.q1.enqueue(elem);
+        } else {
+            self.q2.enqueue(elem);
+        }
     }
+
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        // To implement pop, we want to dequeue all elements from the non-empty queue
+        // and enqueue them into the other queue until only one element is left
+        // that last element is the one we want to pop
+
+        let (src, dest) = if !self.q1.is_empty() {
+            (&mut self.q1, &mut self.q2)
+        } else if !self.q2.is_empty() {
+            (&mut self.q2, &mut self.q1)
+        } else {
+            return Err("Stack is empty");
+        };
+
+        while src.size() > 1 {
+            if let Some(val) = src.dequeue().ok() {
+                dest.enqueue(val);
+            }
+        }
+
+        src.dequeue().map_err(|_| "Stack is empty")
     }
+
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+        self.q1.is_empty() && self.q2.is_empty()
     }
 }
 
